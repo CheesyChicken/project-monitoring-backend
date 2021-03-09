@@ -20,6 +20,7 @@ var guide = require('./app/routes/guide')
 var management = require('./app/routes/management')
 var ftrproject = require('./app/routes/ftrproject')
 var cron = require('node-cron');
+var tempRes = require('./app/routes/tempregister')
 const app = express();
 
 // parse requests of content-type - application/json
@@ -57,13 +58,14 @@ app.use('/api', task_st)
 app.use('/api', guide) 
 app.use('/api', management)
 app.use('/api', ftrproject)
+app.use('/api', tempRes)
 
 function initial() {
   Role.create({
     id: 1,
     name: "student"
   });
- 
+  
   Role.create({
     id: 2,
     name: "guide"
