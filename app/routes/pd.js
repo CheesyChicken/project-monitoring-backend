@@ -152,13 +152,11 @@ router.get('/college', (req, res, next) => {
 router.get('/groups/:gi', (req, res, next) => {
     var gid = req.params.gi
     var groupleader = [];
+    var k=1;
     var sql = "Select Group_id,Group_Name,startDate,(select p6.FullName from persons p6 where p6.roleId=3 and p6.Person_id=(select ins.Person_id from instructor ins where ins.Instructor_id=(select gp.Instructor_id1 from project_group gp where gp.Group_id=? limit 1))) as Guidename from project_group where Group_id=?"
     connection.query(sql, [gid, gid], (err, group, fields) => {
         if (err) {
-            res.status(400).json({
-                status: 'error',
-                error: err,
-            });
+            res.send(err)
             console.log(err);
         }
         else {
@@ -187,12 +185,12 @@ router.get('/groups/:gi', (req, res, next) => {
                                             console.log(err);
                                         }
                                         else {
+                                            while (Number(k) == Number(person.length)){
                                             if (leader[0]) {
-                                               
-                                                groupleader[1] = leader;
+                                                groupleader[k++] = leader;
                                                 res.send(groupleader)
                                             }
-
+                                        }
                                         }
                                     });
                                 }
