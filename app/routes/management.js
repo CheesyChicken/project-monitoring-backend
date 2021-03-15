@@ -1,7 +1,12 @@
 var express = require('express')
 var router = express()
+const util = require('util');
+
+
 
 const connection = require('../config/db')
+const query = util.promisify(connection.query).bind(connection);
+const { route } = require('./tasks')
 
 router.get('/tablemanagement', (req, res, next) => {
     
@@ -51,6 +56,15 @@ router.get('/hometablemanagement', (req, res, next) => {
         }
 
     });
+})
+
+
+router.post('/addcmp/:name',async (req,res)=>{
+    var addQ = "INSERT INTO `company` (`Company_id`, `Company_name`) VALUES (NULL, ? );";
+    var insertion = await query(addQ,[req.params.name]);
+
+
+
 })
 
 module.exports = router
