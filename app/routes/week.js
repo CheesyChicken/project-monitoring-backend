@@ -15,7 +15,7 @@ router.get('/addformweek/:gi', (req, res, next) => {
         else {
             task.forEach(element => {
                 var total = element.initial_Time + element.Design_Time + element.Devlopment_Time + element.Testing_Time + element.Deployment_Time;
-                let j = 1;
+                let j = 1; 
                 const startdate = new Date(element.startDate);
                 const enddate = new Date(element.startDate);
 

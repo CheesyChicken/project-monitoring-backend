@@ -6,7 +6,7 @@ const Role = db.role;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+var bcrypt = require("bcryptjs"); 
 
 exports.signup = (req, res) => {
   // Save User to Database
@@ -21,24 +21,19 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8)
   })
     .then(person => {
-      if (req.body.roles) {
-        Role.findAll({
-          where: {
-            name: {
-              [Op.or]: req.body.roles
-            }
-          }
-        }).then(roles => {
-          person.setRoles(roles).then(() => {
-            res.send({ message: "User was registered successfully!" });
-          });
-        });
-      } else {
-        // user role = 1
-        person.setRoles([1]).then(() => {
+      if (req.body.roles == 1){
+          person.setRoles([1]).then(() => {
           res.send({ message: "User was registered successfully!" });
         });
       }
+      else if(req.body.roles == 3){
+          person.setRoles([3]).then(() => {
+          res.send({ message: "Guide was registered successfully!" });
+        });
+
+      }
+
+      
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
@@ -96,3 +91,21 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+
+
+
+      /* if (req.body.roles) {
+        console.log("THE ROLE IS "+req.body.roles ) 
+        Role.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.roles
+            }
+          }
+        }).then(roles => {
+          person.setRoles(roles).then(() => {
+            res.send({ message: "Guide was registered successfully!" });
+          });
+        });
+      } */
