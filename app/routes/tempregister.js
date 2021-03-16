@@ -80,12 +80,22 @@ router.post('/submitgrp',async(req,res)=>{
     var Project_Type_id =         req.body.Project_Type_id;
     var industryid =              req.body.finalindusid;
     let usergrarray =             req.body.userarray;
+    var count =                   0;
 /*     console.log(industryid);
     console.log(projectname,instructerid1,instructerid2,Instructor_id_industry,Department_id,College_id,final_domain,Domain_Pref_1,Domain_Pref_2,Domain_Pref_3,Status_id,Project_Type_id,Companyid,industryid)
     console.log(current_date); */
+    var getcntQ = ` SELECT COUNT(pg.Department_id) as tcount FROM project_group pg WHERE pg.Department_id = ${Department_id} AND pg.College_id = ${College_id} `;
+    var count = await query(getcntQ);
+    //console.log(count[0].tcount);
+    var getdepname = ` SELECT dep.Department_Name from department dep where dep.College_id = ${College_id} AND dep.Department_id = ${Department_id}  `;
+    var depname = await query(getdepname);
+    //console.log(depname)
+    let newcount = count[0].tcount+1;
+    var Prjname = " BE-"+depname[0].Department_Name+"-PRJ-20-21-"+ newcount;
+    //console.log(Prjname);
 
-    var mainQ = " INSERT INTO project_group (Group_id,Group_Name, Group_title, Instructor_id2, Instructor_id1, Instructor_id_industry, initial_Time, Design_Time, Devlopment_Time, Testing_Time, Deployment_Time, Department_id, College_id, final_domain, Domain_Pref_1, Domain_Pref_2, Domain_Pref_3, Status_id, Project_Type_id, industry_project_id,Objective, Scope, createDate,startDate) VALUES (NULL ,?, NULL , '?' , '?' , ?, '0' , '0' , '0' , '0' , '0' , ? , ? , ? , '1', '2' , '3', '2' , ? , ? , NULL,NULL, ? , NULL)";
-    let parameters = [projectname,instructerid2,instructerid1,Instructor_id_industry,Department_id,College_id,final_domain,Project_Type_id,industryid,current_date]
+    var mainQ = " INSERT INTO project_group (Group_id,Group_Name, Group_title, Instructor_id2, Instructor_id1, Instructor_id_industry, initial_Time, Design_Time, Devlopment_Time, Testing_Time, Deployment_Time, Department_id, College_id, final_domain, Domain_Pref_1, Domain_Pref_2, Domain_Pref_3, Status_id, Project_Type_id, industry_project_id,Objective, Scope, createDate,startDate) VALUES (NULL ,?, 'NOT STARTED YET' , '?' , '?' , ?, '0' , '0' , '0' , '0' , '0' , ? , ? , ? , '1', '2' , '3', '2' , ? , ? , NULL,NULL, ? , NULL)";
+    let parameters = [Prjname,instructerid2,instructerid1,Instructor_id_industry,Department_id,College_id,final_domain,Project_Type_id,industryid,current_date]
     var insertion = await query(mainQ,parameters);
     console.log("INSERTED INTO PROJECTS");
     for await (const i of usergrarray){
