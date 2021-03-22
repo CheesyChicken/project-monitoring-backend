@@ -2,6 +2,8 @@ var express = require('express')
 var router = express()
 current_date = new Date().toJSON().slice(0, 10)
 const connection = require('../config/db')
+const util = require('util');
+const query = util.promisify(connection.query).bind(connection);
 // Get All Tasks'
 router.get('/hod/:clg/:dep', (req, res, next) => {
     var cllg = req.params.clg;
@@ -74,5 +76,30 @@ router.get('/hodstudnets/:clg/:dep', (req, res, next) => {
         }
 
     });
-})
+});
+
+
+router.post('/hod/delete/:grpid',async(req,res)=>{
+    //onsole.log("OK")
+    //console.log(req.params.grpname);
+    var delQ = `DELETE FROM project_group  WHERE Group_id = '${req.params.grpid}'; `;
+    console.log(delQ);
+    var deleted = await query(delQ);
+    var delper = `DELETE FROM  persons WHERE Person_id IN (SELECT Person_id FROM learner WHERE Learner_id IN (SELECT Learner_id FROM learner_project_reg WHERE Group_id = '${req.params.grpid}' ));`;
+    var deleted = await query(delper);
+    var delper = `DELETE FROM  user_roles WHERE Person_id IN (SELECT Person_id FROM learner WHERE Learner_id IN (SELECT Learner_id FROM learner_project_reg WHERE Group_id = '${req.params.grpid}' ));`;
+    var deleted = await query(delper);
+    //var personidsQ = `SELECT Person_id FROM learner WHERE Learner_id IN (SELECT Learner_id FROM learner_project_reg WHERE Group_id = '${req.params.grpid}' );`
+    //let personids = await query(personidsQ);
+    var dellerner = `DELETE FROM learner WHERE Learner_id IN (SELECT Learner_id FROM learner_project_reg WHERE Group_id = '${req.params.grpid}' );`
+    var deleted = await query(dellerner);
+    var delfromlerreg = `DELETE FROM learner_project_reg WHERE Group_id = '${req.params.grpid}' ; `;
+    var deleted = await query(delfromlerreg);
+
+    
+});
+
+
+
+
 module.exports = router
