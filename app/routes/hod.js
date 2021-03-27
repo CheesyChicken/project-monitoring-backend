@@ -3,6 +3,7 @@ var router = express()
 current_date = new Date().toJSON().slice(0, 10)
 const connection = require('../config/db')
 const util = require('util');
+const utils = require('./utils');
 const query = util.promisify(connection.query).bind(connection);
 // Get All Tasks'
 router.get('/hod/:clg/:dep', (req, res, next) => {
@@ -95,9 +96,31 @@ router.post('/hod/delete/:grpid',async(req,res)=>{
     var deleted = await query(dellerner);
     var delfromlerreg = `DELETE FROM learner_project_reg WHERE Group_id = '${req.params.grpid}' ; `;
     var deleted = await query(delfromlerreg);
+    
 
     
 });
+
+
+router.get('/domain/:dep',async(req,res)=>{
+    var getdomQ = `SELECT * FROM project_domain WHERE Department_id = ${req.params.dep} ;`;
+    var fireQ = await query(getdomQ);
+    res.send(fireQ)
+})
+
+
+router.put('/updategrp',async(request, response)=>{
+   const { final_domain, Member, Group_Name, instructor1, instructor2 } = request.body;
+   //console.log(final_domain+Group_Name+instructor1+instructor2)
+
+   var UpdateQ = `UPDATE project_group SET final_domain = ${final_domain} , Instructor_id1 = ${instructor1}, Instructor_id2 = ${instructor2} WHERE Group_Name = '${Group_Name}' ; `;
+   var fireQ = await query(UpdateQ);
+   response.send("success")
+   //response.send(utils.createResponse(fireQ));
+
+
+})
+
 
 
 

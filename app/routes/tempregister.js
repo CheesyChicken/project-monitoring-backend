@@ -94,7 +94,7 @@ router.post('/submitgrp',async(req,res)=>{
     var Prjname = " BE-"+depname[0].Department_Name+"-PRJ-20-21-"+ newcount;
     //console.log(Prjname);
 
-    var mainQ = " INSERT INTO project_group (Group_id,Group_Name, Group_title, Instructor_id2, Instructor_id1, Instructor_id_industry, initial_Time, Design_Time, Devlopment_Time, Testing_Time, Deployment_Time, Department_id, College_id, final_domain, Domain_Pref_1, Domain_Pref_2, Domain_Pref_3, Status_id, Project_Type_id, industry_project_id,Objective, Scope, createDate,startDate) VALUES (NULL ,?, 'NOT STARTED YET' , '?' , '?' , ?, '0' , '0' , '0' , '0' , '0' , ? , ? , ? , '1', '2' , '3', '2' , ? , ? , NULL,NULL, ? , NULL)";
+    var mainQ = " INSERT INTO project_group (Group_id,Group_Name, Group_title, Instructor_id2, Instructor_id1, Instructor_id_industry, initial_Time, Design_Time, Devlopment_Time, Testing_Time, Deployment_Time, Department_id, College_id, final_domain, Domain_Pref_1, Domain_Pref_2, Domain_Pref_3, Status_id, Project_Type_id, industry_project_id,Objective, Scope, createDate,startDate) VALUES (NULL ,?, 'NOT STARTED YET' , '?' , '?' , ?, '0' , '0' , '0' , '0' , '0' , ? , ? , ? , '9', '10' , '11', '2' , ? , ? , NULL,NULL, ? , NULL)";
     let parameters = [Prjname,instructerid2,instructerid1,Instructor_id_industry,Department_id,College_id,final_domain,Project_Type_id,industryid,current_date]
     var insertion = await query(mainQ,parameters);
     console.log("INSERTED INTO PROJECTS");
