@@ -208,7 +208,7 @@ router.get('/guidegroupsprofile/:gi', (req, res, next) => {
         }
         else {
             for (let j = 0; i < person.length; i++) {
-                var sql1 = "select g.Group_id as gid,g.Group_Name as gna,g.group_title as gti,g.Project_Type_id as gst from project_group g where g.Group_id =?"
+                var sql1 = "select g.Group_id as gid,g.Group_Name as gna,g.group_title as gti,g.Project_Type_id as gst , pt.Project_Type_Name as typname from project_group g JOIN project_type pt on pt.Project_Type_id = g.Project_Type_id where g.Group_id = ?"
                 connection.query(sql1, [person[i].Group_id], (err, home, fields) => {
                     if (err) {
                         errr[j] = err;

@@ -107,9 +107,9 @@ router.get('/domain/:dep',async(req,res)=>{
     var fireQ = await query(getdomQ);
     res.send(fireQ)
 })
+ 
 
-
-router.put('/updategrp',async(request, response)=>{
+router.put('/updategrp',async(request, response)=>{  
    const { final_domain, Member, Group_Name, instructor1, instructor2 } = request.body;
    //console.log(final_domain+Group_Name+instructor1+instructor2)
 
