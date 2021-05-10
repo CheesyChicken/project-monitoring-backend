@@ -36,7 +36,7 @@ router.get('/hoddir/:dep', (req, res, next) => {
     });
 })
 router.get('/hoddirgroups/:dep', (req, res, next) => {
-    var dips = req.params.dep;
+    var dips = req.params.dep; 
     var sql = "Select count(*) as total from persons where  department=? and roleId=1"
     connection.query(sql, [dips], (err, groups, fields) => {
         if (err) {

@@ -1,11 +1,11 @@
 //var mysql = require('mysql');
-module.exports = {
-    HOST: "localhost",
-    USER: "root",
+module.exports = { 
+    HOST: "35.239.58.214",
+    USER: "Jinesh",
     PASSWORD: "",
-    DB: "newdatabase",
+    DB: "newdatabase2",
     dialect: "mysql",
-    pool: {
+    pool:{
       max: 5,
       min: 0,
       acquire: 30000,
